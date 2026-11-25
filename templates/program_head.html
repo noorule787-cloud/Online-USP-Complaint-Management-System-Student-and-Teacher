@@ -1,0 +1,3188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Head Dashboard - UCMS</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #eef8fc;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #123d67;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: linear-gradient(
+                180deg,
+                #0b315f 0%,
+                #075b78 55%,
+                #0795a0 100%
+            );
+            color: white;
+            z-index: 1000;
+            overflow: hidden;
+            box-shadow: 5px 0 25px rgba(0, 42, 80, 0.18);
+        }
+
+        .sidebar::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.08);
+            left: -140px;
+            bottom: 20px;
+        }
+
+        .sidebar::after {
+            content: "";
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.06);
+            right: -120px;
+            bottom: -80px;
+        }
+
+        .brand {
+            height: 86px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 17px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #087d91;
+            font-size: 22px;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.18);
+        }
+
+        .brand-text h4 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 750;
+            letter-spacing: .3px;
+        }
+
+        .brand-text span {
+            display: block;
+            font-size: 9px;
+            color: rgba(255,255,255,0.80);
+            line-height: 1.3;
+        }
+
+        .sidebar-menu {
+            padding: 19px 13px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .menu-title {
+            color: rgba(255,255,255,0.48);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin: 4px 11px 11px;
+        }
+
+        .sidebar-link {
+            height: 45px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 0 13px;
+            margin-bottom: 6px;
+            border-radius: 10px;
+            color: rgba(255,255,255,0.90);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: .25s ease;
+        }
+
+        .sidebar-link i {
+            font-size: 18px;
+            width: 23px;
+            text-align: center;
+        }
+
+        .sidebar-link:hover {
+            color: white;
+            background: rgba(255,255,255,0.10);
+            transform: translateX(2px);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(
+                135deg,
+                #168fd0,
+                #087d91
+            );
+            color: white;
+            box-shadow: 0 7px 18px rgba(0, 137, 205, 0.25);
+        }
+
+        .notification-count {
+            margin-left: auto;
+            background: #f63370;
+            color: white;
+            min-width: 19px;
+            height: 19px;
+            padding: 0 5px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 24px;
+            left: 18px;
+            right: 18px;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .university-icon {
+            font-size: 38px;
+            color: #8ed9e2;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-bottom strong {
+            display: block;
+            color: white;
+            font-size: 11px;
+        }
+
+        .sidebar-bottom span {
+            color: rgba(255,255,255,0.72);
+            font-size: 9px;
+        }
+
+        /* =========================================================
+           MAIN AREA
+        ========================================================= */
+
+        .main-wrapper {
+            margin-left: 245px;
+            min-height: 100vh;
+        }
+
+        /* =========================================================
+           TOP BAR
+        ========================================================= */
+
+        .topbar {
+            height: 76px;
+            background: rgba(255,255,255,0.96);
+            border-bottom: 1px solid #dcecf5;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 17px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .profile-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 235px;
+        }
+
+        .profile-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1498df, #0876c1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            box-shadow: 0 5px 14px rgba(8,118,193,0.20);
+        }
+
+        .welcome-text small {
+            display: block;
+            color: #39719b;
+            font-size: 11px;
+            margin-bottom: 1px;
+        }
+
+        .welcome-text strong {
+            display: block;
+            font-size: 14px;
+            color: #0d3b69;
+        }
+
+        .welcome-text span {
+            display: block;
+            color: #087d91;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .top-search {
+            flex: 1;
+            max-width: 500px;
+            margin-left: auto;
+        }
+
+        .top-search .input-group {
+            height: 38px;
+        }
+
+        .top-search .form-control {
+            border: 1px solid #cfe5f3;
+            border-left: none;
+            background: #fafdff;
+            font-size: 11px;
+            box-shadow: none;
+        }
+
+        .top-search .form-control:focus {
+            border-color: #72c4e5;
+            box-shadow: 0 0 0 3px rgba(20,152,223,0.08);
+        }
+
+        .search-icon {
+            background: #fafdff;
+            border: 1px solid #cfe5f3;
+            border-right: none;
+            color: #4e8bb2;
+        }
+
+        .top-icon-btn {
+            width: 41px;
+            height: 41px;
+            border-radius: 50%;
+            border: 1px solid #e1edf4;
+            background: white;
+            color: #086eb8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-decoration: none;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .top-icon-btn:hover {
+            background: #edf8ff;
+            color: #075b9a;
+        }
+
+        .top-notification-count {
+            position: absolute;
+            right: -1px;
+            top: -3px;
+            background: #ed2867;
+            color: white;
+            font-size: 8px;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* =========================================================
+           CONTENT
+        ========================================================= */
+
+        .content {
+            padding: 20px 22px 32px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 17px;
+        }
+
+        .page-title-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #157bd0, #4e54d8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            box-shadow: 0 6px 15px rgba(21,123,208,0.20);
+        }
+
+        .page-title h2 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 750;
+            color: #103b68;
+        }
+
+        .page-title p {
+            margin: 2px 0 0;
+            color: #6b8498;
+            font-size: 10px;
+        }
+
+        /* =========================================================
+           STAT CARDS
+        ========================================================= */
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e1eef5;
+            border-radius: 12px;
+            min-height: 84px;
+            padding: 12px 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 17px rgba(26,86,119,0.07);
+            transition: .2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(26,86,119,0.11);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .stat-blue .stat-icon {
+            background: #e1f2ff;
+            color: #087dcc;
+        }
+
+        .stat-orange .stat-icon {
+            background: #fff2d9;
+            color: #efa914;
+        }
+
+        .stat-cyan .stat-icon {
+            background: #ddf7f7;
+            color: #11a4a5;
+        }
+
+        .stat-green .stat-icon {
+            background: #e1f8eb;
+            color: #18a85c;
+        }
+
+        .stat-purple .stat-icon {
+            background: #eee8ff;
+            color: #7651d6;
+        }
+
+        .stat-number {
+            font-size: 21px;
+            font-weight: 750;
+            color: #123c69;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: #638097;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           GRID
+        ========================================================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 350px;
+            gap: 17px;
+            margin-top: 16px;
+            align-items: start;
+        }
+
+        /* =========================================================
+           PANELS
+        ========================================================= */
+
+        .panel,
+        .side-panel {
+            background: white;
+            border: 1px solid #dfedf5;
+            border-radius: 14px;
+            box-shadow: 0 6px 20px rgba(25,83,115,0.07);
+        }
+
+        .panel-header {
+            padding: 13px 15px;
+            border-bottom: 1px solid #e7f0f5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .panel-title i {
+            width: 29px;
+            height: 29px;
+            border-radius: 8px;
+            background: #e5f4ff;
+            color: #087dcb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .panel-title strong {
+            font-size: 14px;
+            color: #123b68;
+        }
+
+        .complaint-count {
+            background: #e7f4ff;
+            color: #087ac2;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 15px;
+            white-space: nowrap;
+        }
+
+        .complaint-tools {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mini-search {
+            width: 180px;
+        }
+
+        .mini-search .form-control {
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #d7e8f2;
+            font-size: 10px;
+            box-shadow: none;
+        }
+
+        .complaint-list {
+            padding: 8px 12px 13px;
+        }
+
+        /* =========================================================
+           COMPLAINT ITEM
+        ========================================================= */
+
+        .complaint-item {
+            width: 100%;
+            display: block;
+            border: 1px solid #dbeaf3;
+            border-radius: 11px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            background: white;
+            transition: .2s ease;
+        }
+
+        .complaint-item:hover {
+            border-color: #8bcbe9;
+            box-shadow: 0 4px 15px rgba(30,126,174,0.08);
+        }
+
+        .complaint-main {
+            width: 100%;
+            min-width: 0;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .complaint-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #28a6e8, #2778d0);
+            color: white;
+            font-size: 16px;
+        }
+
+        .complaint-basic {
+            min-width: 0;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .complaint-top-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 3px;
+            flex-wrap: wrap;
+        }
+
+        .complaint-id {
+            font-weight: 750;
+            color: #183e68;
+            font-size: 12px;
+        }
+
+        .category-badge {
+            padding: 3px 7px;
+            border-radius: 15px;
+            font-size: 8px;
+            font-weight: 700;
+            background: #ffe9f0;
+            color: #e74778;
+        }
+
+        .complaint-meta {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            flex-wrap: wrap;
+            color: #668096;
+            font-size: 9px;
+        }
+
+        .complaint-meta i {
+            color: #5b9dc2;
+        }
+
+        .complaint-description {
+            color: #668096;
+            font-size: 9px;
+            margin-top: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 8px;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .status-pending {
+            background: #fff2d8;
+            color: #db9510;
+        }
+
+        .status-progress {
+            background: #e0f7f8;
+            color: #0b999e;
+        }
+
+        .status-resolved {
+            background: #e0f7ea;
+            color: #159454;
+        }
+
+        .status-other {
+            background: #edf0f3;
+            color: #657686;
+        }
+
+        .status-investigation {
+            background: #eee8ff;
+            color: #7651d6;
+        }
+
+        .expand-icon {
+            color: #668aa2;
+            font-size: 15px;
+            transition: .2s;
+            flex-shrink: 0;
+        }
+
+        .complaint-item.open .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        /* =========================================================
+           COMPLAINT DETAILS
+        ========================================================= */
+
+        .complaint-details {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            border-top: 1px solid #e5eff5;
+            background: #fbfdff;
+        }
+
+        .complaint-item.open .complaint-details {
+            display: block;
+        }
+
+        .details-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: minmax(180px, 1fr) minmax(220px, 1.25fr) 205px;
+            gap: 9px;
+        }
+
+        .detail-box {
+            min-width: 0;
+            border: 1px solid #e2edf3;
+            border-radius: 9px;
+            padding: 11px;
+            background: white;
+        }
+
+        .detail-heading {
+            color: #087bc3;
+            font-size: 10px;
+            font-weight: 750;
+            margin-bottom: 7px;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 82px minmax(0, 1fr);
+            gap: 4px;
+            margin-bottom: 5px;
+            font-size: 9px;
+        }
+
+        .detail-label {
+            color: #7a91a2;
+        }
+
+        .detail-value {
+            color: #315470;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .description-box {
+            font-size: 10px;
+            color: #536f84;
+            line-height: 1.5;
+            min-height: 90px;
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================================================
+           TIMELINE
+        ========================================================= */
+
+        .timeline {
+            position: relative;
+            padding-left: 19px;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 6px;
+            bottom: 6px;
+            width: 2px;
+            background: #d8e9f3;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 8px;
+            font-size: 9px;
+            color: #7790a1;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -18px;
+            top: 2px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 3px solid white;
+            background: #a8c7d8;
+            box-shadow: 0 0 0 1px #a8c7d8;
+        }
+
+        .timeline-item.active {
+            color: #1676bd;
+            font-weight: 700;
+        }
+
+        .timeline-item.active::before {
+            background: #1687cf;
+            box-shadow: 0 0 0 1px #1687cf;
+        }
+
+        /* =========================================================
+           COMMITTEE MEMBERS
+        ========================================================= */
+
+        .committee-member {
+            background: #f0fafc;
+            border: 1px solid #d0eaf0;
+            border-radius: 8px;
+            padding: 7px 9px;
+            margin-bottom: 5px;
+            font-size: 9px;
+        }
+
+        .committee-member strong {
+            display: block;
+            color: #087d91;
+            font-size: 9px;
+        }
+
+        .committee-member small {
+            font-size: 8px;
+        }
+
+        .conflict-alert {
+            border-radius: 8px;
+            font-size: 9px;
+            padding: 7px 9px;
+            margin-bottom: 7px;
+        }
+
+        /* =========================================================
+           ACTIONS
+        ========================================================= */
+
+        .action-box {
+            margin-top: 9px;
+            padding-top: 9px;
+            border-top: 1px solid #e6eff4;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .status-select {
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid #d3e4ed;
+            font-size: 10px;
+            min-width: 125px;
+            box-shadow: none;
+        }
+
+        .action-btn {
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 0 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .btn-theme {
+            background: linear-gradient(135deg, #0877c2, #087d91);
+            color: white;
+        }
+
+        .btn-theme:hover {
+            color: white;
+            box-shadow: 0 5px 12px rgba(8,125,145,0.20);
+        }
+
+        .btn-warning-theme {
+            background: #fff0cf;
+            color: #c58208;
+        }
+
+        .btn-warning-theme:hover {
+            background: #ffe8b4;
+            color: #b77504;
+        }
+
+        .btn-evidence {
+            background: #e5f6fb;
+            color: #087d91;
+        }
+
+        .btn-evidence:hover {
+            background: #d7f1f7;
+            color: #056b7d;
+        }
+
+        /* =========================================================
+           COMMITTEE REPORT
+        ========================================================= */
+
+        .committee-report-btn {
+            background: linear-gradient(135deg, #7652d5, #5d43b8);
+            color: white;
+        }
+
+        .committee-report-btn:hover {
+            color: white;
+            box-shadow: 0 5px 13px rgba(118, 82, 213, 0.25);
+        }
+
+        .committee-report-box {
+            margin-top: 10px;
+            padding: 13px;
+            background: #f8f6ff;
+            border: 1px solid #ddd4f5;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .committee-report-box.show {
+            display: block;
+        }
+
+        .committee-report-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e1d9f4;
+        }
+
+        .committee-report-title {
+            color: #6548b9;
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        .committee-report-title i {
+            margin-right: 5px;
+        }
+
+        .report-section {
+            background: white;
+            border: 1px solid #e5def5;
+            border-radius: 8px;
+            padding: 9px 10px;
+            margin-bottom: 7px;
+        }
+
+        .report-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .report-label {
+            display: block;
+            color: #7652d5;
+            font-size: 9px;
+            font-weight: 750;
+            margin-bottom: 4px;
+        }
+
+        .report-content {
+            color: #4f6478;
+            font-size: 10px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .report-empty {
+            color: #8a9aaa;
+            font-style: italic;
+        }
+
+        /* =========================================================
+           RIGHT COLUMN
+        ========================================================= */
+
+        .right-column {
+            min-width: 0;
+        }
+
+        .side-panel {
+            margin-bottom: 14px;
+        }
+
+        .side-header {
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #e8f0f5;
+        }
+
+        .side-header i {
+            color: #4c50d5;
+            font-size: 17px;
+        }
+
+        .side-header strong {
+            font-size: 13px;
+            color: #173c67;
+        }
+
+        .quick-actions {
+            padding: 11px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .quick-btn {
+            height: 52px;
+            border-radius: 9px;
+            border: 1px solid #d7eaf4;
+            background: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px;
+            transition: .2s ease;
+        }
+
+        .quick-btn:hover {
+            background: #f4fbff;
+            transform: translateY(-1px);
+        }
+
+        .quick-icon {
+            width: 31px;
+            height: 31px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .quick-blue .quick-icon {
+            background: #e0f2ff;
+            color: #087bc4;
+        }
+
+        .quick-purple .quick-icon {
+            background: #eee7ff;
+            color: #7652d5;
+        }
+
+        .quick-green .quick-icon {
+            background: #e2f8eb;
+            color: #1ca35d;
+        }
+
+        .quick-orange .quick-icon {
+            background: #fff0da;
+            color: #e99b20;
+        }
+
+        .quick-btn span {
+            color: #345876;
+            font-size: 8px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* =========================================================
+           ACTIVITY / NOTIFICATIONS
+        ========================================================= */
+
+        .activity-list,
+        .notification-list {
+            padding: 5px 13px 10px;
+        }
+
+        .activity-item,
+        .notification-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 9px 0;
+            border-bottom: 1px solid #edf3f7;
+        }
+
+        .activity-item:last-child,
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #f29a3c;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .activity-dot.blue {
+            background: #1689ca;
+        }
+
+        .activity-dot.green {
+            background: #20ad62;
+        }
+
+        .activity-text {
+            flex: 1;
+            color: #45677f;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .activity-time {
+            color: #7891a2;
+            font-size: 8px;
+            white-space: nowrap;
+        }
+
+        .notification-icon {
+            width: 31px;
+            height: 31px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e7f5ff;
+            color: #087dca;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        .notification-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-text strong {
+            display: block;
+            color: #41637b;
+            font-size: 9px;
+            font-weight: 650;
+        }
+
+        .notification-text small {
+            color: #7891a2;
+            font-size: 8px;
+        }
+
+        .view-all {
+            color: #087bc3;
+            font-size: 8px;
+            text-decoration: none;
+            margin-left: auto;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           MODAL
+        ========================================================= */
+
+        .modal-content {
+            border: none;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            background: linear-gradient(
+                135deg,
+                #062f63,
+                #087d91,
+                #20aaa9
+            );
+            color: white;
+            border: none;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        .modal .form-check {
+            background: #f2fafc;
+            border: 1px solid #cce8eb;
+            border-radius: 9px;
+            padding: 9px 12px 9px 34px;
+            transition: .2s ease;
+        }
+
+        .modal .form-check:hover {
+            background: #e7f7f8;
+        }
+
+        .modal .form-check-input:checked {
+            background-color: #078a98;
+            border-color: #078a98;
+        }
+
+        /* =========================================================
+           EMPTY STATE
+        ========================================================= */
+
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: #7992a4;
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            color: #a9c9da;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1250px) {
+            .dashboard-grid {
+                grid-template-columns: minmax(0, 1fr) 320px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .details-grid .status-detail {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 1050px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .right-column {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+
+            .side-panel {
+                margin-bottom: 0;
+            }
+
+            .side-panel:last-child {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .brand-text,
+            .sidebar-link span,
+            .menu-title,
+            .notification-count,
+            .sidebar-bottom {
+                display: none;
+            }
+
+            .brand {
+                justify-content: center;
+                padding: 18px 9px;
+            }
+
+            .sidebar-menu {
+                padding: 20px 9px;
+            }
+
+            .sidebar-link {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .sidebar-link i {
+                margin: 0;
+            }
+
+            .main-wrapper {
+                margin-left: 70px;
+            }
+
+            .profile-area {
+                min-width: auto;
+            }
+
+            .welcome-text {
+                display: none;
+            }
+
+            .top-search {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .topbar {
+                padding: 0 10px;
+                gap: 7px;
+            }
+
+            .content {
+                padding: 14px 9px 25px;
+            }
+
+            .top-search {
+                display: none;
+            }
+
+            .dashboard-grid {
+                display: block;
+            }
+
+            .right-column {
+                display: block;
+                margin-top: 14px;
+            }
+
+            .side-panel {
+                margin-bottom: 14px;
+            }
+
+            .complaint-tools {
+                display: none;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .details-grid .status-detail {
+                grid-column: auto;
+            }
+
+            .complaint-main {
+                align-items: flex-start;
+            }
+
+            .status-badge {
+                margin-left: auto;
+            }
+
+            .stat-card {
+                margin-bottom: 7px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .complaint-main {
+                flex-wrap: wrap;
+            }
+
+            .complaint-basic {
+                width: calc(100% - 50px);
+            }
+
+            .status-badge {
+                margin-left: 48px;
+            }
+
+            .expand-icon {
+                margin-left: auto;
+            }
+
+            .action-row {
+                display: block;
+            }
+
+            .action-row > *,
+            .action-row form,
+            .action-row form button,
+            .action-row form select {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="bi bi-mortarboard-fill"></i>
+        </div>
+
+        <div class="brand-text">
+            <h4>UCMS</h4>
+            <span>USP Complaint Management System</span>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-menu">
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+
+        <a href="/program_head" class="sidebar-link active">
+            <i class="bi bi-house-door-fill"></i>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a href="#complaints-section" class="sidebar-link">
+            <i class="bi bi-file-earmark-text"></i>
+            <span>Complaints</span>
+        </a>
+
+
+        <a href="#committee-section" class="sidebar-link">
+            <i class="bi bi-people-fill"></i>
+            <span>Committee Members</span>
+        </a>
+
+
+        <a href="#reports-section" class="sidebar-link">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Reports</span>
+        </a>
+
+
+        <a href="/notifications" class="sidebar-link">
+
+            <i class="bi bi-bell-fill"></i>
+
+            <span>Notifications</span>
+
+            <span class="notification-count">
+                3
+            </span>
+
+        </a>
+
+
+        <a href="#" class="sidebar-link">
+            <i class="bi bi-gear-fill"></i>
+            <span>Settings</span>
+        </a>
+
+
+        <div class="menu-title mt-4">
+            Account
+        </div>
+
+
+        <a href="/" class="sidebar-link">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="university-icon">
+            <i class="bi bi-building"></i>
+        </div>
+
+        <strong>Better Communication</strong>
+        <span>A Stronger University</span>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN WRAPPER
+========================================================= -->
+
+<div class="main-wrapper">
+
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div class="profile-area">
+
+            <div class="profile-icon">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+             <div class="welcome-text">
+
+                 <small>
+                     Welcome back,
+                 </small>
+
+                 <strong>
+                     {{ user_name }}
+                 </strong>
+
+                 <span>
+                    {{ program_department }} Program Head
+                 </span>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="top-search">
+
+            <form method="GET" action="/program_head">
+
+                <div class="input-group">
+
+                    <span class="input-group-text search-icon">
+                        <i class="bi bi-search"></i>
+                    </span>
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search complaints, student, teacher, department..."
+                        value="{{ request.args.get('search','') }}">
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <a href="/notifications" class="top-icon-btn">
+
+            <i class="bi bi-bell"></i>
+
+            <span class="top-notification-count">
+                3
+            </span>
+
+        </a>
+
+
+        <a href="/" class="top-icon-btn">
+            <i class="bi bi-person-fill"></i>
+        </a>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <main class="content">
+
+
+        <!-- PAGE TITLE -->
+
+        <div class="page-title">
+
+            <div class="page-title-icon">
+                <i class="bi bi-display"></i>
+            </div>
+
+            <div>
+
+                <h2>
+                    Program Head Dashboard
+                </h2>
+
+                <p>
+                    Manage complaints, assign committees and track progress.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <div class="row g-2">
+
+
+            <!-- TOTAL -->
+
+            <div class="col-xl col-md-4 col-6">
+
+                <div class="stat-card stat-blue">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-file-earmark-text-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="stat-number">
+                            {{ complaints|length }}
+                        </div>
+
+                        <div class="stat-label">
+                            Total Complaints
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PENDING -->
+
+            <div class="col-xl col-md-4 col-6">
+
+                <div class="stat-card stat-orange">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-clock-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="stat-number">
+                            {{ complaints|selectattr('status', 'equalto', 'Pending')|list|length }}
+                        </div>
+
+                        <div class="stat-label">
+                            Pending
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- IN PROGRESS -->
+
+            <div class="col-xl col-md-4 col-6">
+
+                <div class="stat-card stat-cyan">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="stat-number">
+                            {{ complaints|selectattr('status', 'equalto', 'In Progress')|list|length }}
+                        </div>
+
+                        <div class="stat-label">
+                            In Progress
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESOLVED -->
+
+            <div class="col-xl col-md-4 col-6">
+
+                <div class="stat-card stat-green">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="stat-number">
+                            {{ complaints|selectattr('status', 'equalto', 'Resolved')|list|length }}
+                        </div>
+
+                        <div class="stat-label">
+                            Resolved
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REPORTS -->
+
+            <div class="col-xl col-md-4 col-6">
+
+                <div class="stat-card stat-purple">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <div class="stat-number">
+                            —
+                        </div>
+
+                        <div class="stat-label">
+                            Reports Submitted
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             MAIN GRID
+        ================================================== -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- =================================================
+                 COMPLAINTS
+            ================================================== -->
+
+            <section class="panel" id="complaints-section">
+
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+
+                        <i class="bi bi-journal-text"></i>
+
+                        <strong>
+                            Complaints
+                        </strong>
+
+                        <span class="complaint-count">
+                            Showing {{ complaints|length }} complaints
+                        </span>
+
+                    </div>
+
+
+                    <div class="complaint-tools">
+
+                        <form method="GET" action="/program_head">
+
+                            <div class="mini-search">
+
+                                <input
+                                    type="text"
+                                    name="search"
+                                    class="form-control"
+                                    placeholder="Search complaints..."
+                                    value="{{ request.args.get('search','') }}">
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     COMPLAINT LIST
+                ================================================== -->
+
+                <div class="complaint-list">
+
+                    {% if complaints %}
+
+                        {% for complaint in complaints %}
+
+                        <!-- =================================================
+                             ONE COMPLETE COMPLAINT ITEM
+                        ================================================= -->
+
+                        <div class="complaint-item">
+
+
+                            <!-- COMPLAINT HEADER -->
+
+                            <div
+                                class="complaint-main"
+                                onclick="toggleComplaint(this)">
+
+
+                                <div class="complaint-avatar">
+
+                                    {% if complaint.category|lower == "academic" %}
+
+                                        <i class="bi bi-mortarboard-fill"></i>
+
+                                    {% elif complaint.category|lower == "fee issue" %}
+
+                                        <i class="bi bi-cash-stack"></i>
+
+                                    {% elif complaint.category|lower == "harassment" %}
+
+                                        <i class="bi bi-shield-exclamation"></i>
+
+                                    {% else %}
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="complaint-basic">
+
+                                    <div class="complaint-top-line">
+
+                                        <span class="complaint-id">
+                                            #{{ complaint.id }}
+                                        </span>
+
+                                        <span class="category-badge">
+                                            {{ complaint.category }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="complaint-meta">
+
+                                        <span>
+                                            <i class="bi bi-person"></i>
+                                            {{ complaint.complaint_by }}
+                                        </span>
+
+                                        <span>•</span>
+
+                                        <span>
+                                            {{ complaint.department }}
+                                        </span>
+
+                                        <span>•</span>
+
+                                        <span>
+                                            <i class="bi bi-calendar3"></i>
+                                            {{ complaint.complaint_date }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="complaint-description">
+                                        {{ complaint.complaint }}
+                                    </div>
+
+                                </div>
+
+
+                                <!-- STATUS -->
+
+                                {% if complaint.status == "Pending" %}
+
+                                    <span class="status-badge status-pending">
+
+                                        <i class="bi bi-clock"></i>
+                                        Pending
+
+                                    </span>
+
+                                {% elif complaint.status == "In Progress" %}
+
+                                    <span class="status-badge status-progress">
+
+                                        <i class="bi bi-hourglass-split"></i>
+                                        In Progress
+
+                                    </span>
+
+                                {% elif complaint.status == "Resolved" %}
+
+                                    <span class="status-badge status-resolved">
+
+                                        <i class="bi bi-check-circle"></i>
+                                        Resolved
+
+                                    </span>
+
+                                {% elif complaint.status == "Investigation Completed" %}
+
+                                    <span class="status-badge status-investigation">
+
+                                        <i class="bi bi-clipboard-check"></i>
+                                        Investigation Completed
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-badge status-other">
+                                        {{ complaint.status }}
+                                    </span>
+
+                                {% endif %}
+
+
+                                <i class="bi bi-chevron-down expand-icon"></i>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 DETAILS
+                            ================================================== -->
+
+                            <div class="complaint-details">
+
+
+                                <div class="details-grid">
+
+
+                                    <!-- INFORMATION -->
+
+                                    <div class="detail-box">
+
+                                        <div class="detail-heading">
+
+                                            <i class="bi bi-info-circle"></i>
+                                            Complaint Information
+
+                                        </div>
+
+
+                                        <div class="detail-row">
+
+                                            <span class="detail-label">
+                                                Student:
+                                            </span>
+
+                                            <span class="detail-value">
+                                                {{ complaint.student_name }}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="detail-row">
+
+                                            <span class="detail-label">
+                                                Teacher:
+                                            </span>
+
+                                            <span class="detail-value">
+                                                {{ complaint.teacher_name }}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="detail-row">
+
+                                            <span class="detail-label">
+                                                Department:
+                                            </span>
+
+                                            <span class="detail-value">
+                                                {{ complaint.department }}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="detail-row">
+
+                                            <span class="detail-label">
+                                                Complaint By:
+                                            </span>
+
+                                            <span class="detail-value">
+                                                {{ complaint.complaint_by }}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="detail-row">
+
+                                            <span class="detail-label">
+                                                Date:
+                                            </span>
+
+                                            <span class="detail-value">
+                                                {{ complaint.complaint_date }}
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="detail-row">
+
+                                            <span class="detail-label">
+                                                Category:
+                                            </span>
+
+                                            <span class="detail-value">
+                                                {{ complaint.category }}
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- DESCRIPTION -->
+
+                                    <div class="detail-box">
+
+                                        <div class="detail-heading">
+
+                                            <i class="bi bi-chat-left-text"></i>
+                                            Complaint Description
+
+                                        </div>
+
+
+                                        <div class="description-box">
+
+                                            {{ complaint.complaint }}
+
+                                            <br><br>
+
+
+                                            {% if complaint.evidence %}
+
+                                                <a
+                                                    href="/uploads/{{ complaint.evidence }}"
+                                                    target="_blank"
+                                                    class="btn action-btn btn-evidence">
+
+                                                    <i class="bi bi-paperclip"></i>
+                                                    View Evidence
+
+                                                </a>
+
+                                            {% else %}
+
+                                                <span class="text-muted">
+                                                    No evidence file attached.
+                                                </span>
+
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- CURRENT STATUS -->
+
+                                    <div class="detail-box status-detail">
+
+                                        <div class="detail-heading">
+
+                                            <i class="bi bi-clock-history"></i>
+                                            Current Status
+
+                                        </div>
+
+
+                                        <div class="timeline">
+
+
+                                            <div
+                                                class="timeline-item
+                                                {% if complaint.status in ['Pending','In Progress','Resolved','Investigation Completed'] %}
+                                                    active
+                                                {% endif %}">
+
+                                                Program Head
+
+                                            </div>
+
+
+                                            <div
+                                                class="timeline-item
+                                                {% if complaint.status in ['In Progress','Resolved','Investigation Completed'] %}
+                                                    active
+                                                {% endif %}">
+
+                                                Committee
+
+                                            </div>
+
+
+                                            <div
+                                                class="timeline-item
+                                                {% if complaint.status == 'Resolved' %}
+                                                    active
+                                                {% endif %}">
+
+                                                HOD
+
+                                            </div>
+
+
+                                            <div
+                                                class="timeline-item
+                                                {% if complaint.status == 'Resolved' %}
+                                                    active
+                                                {% endif %}">
+
+                                                Admin
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =================================================
+                                     RECOMMENDED COMMITTEE MEMBERS
+                                ================================================== -->
+
+                                <div
+                                    class="detail-box mt-2"
+                                    id="committee-section">
+
+                                    <div class="detail-heading">
+
+                                        <i class="bi bi-people-fill"></i>
+                                        Recommended Committee Members
+
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        {% for member in committee_members %}
+
+                                            {% if
+                                                (
+                                                    complaint.category|lower == "fee issue"
+                                                    and member.committee_type|lower == "accounts"
+                                                )
+                                                or
+                                                complaint.category|lower
+                                                == member.committee_type|lower
+                                            %}
+
+
+                                                {% if
+                                                    complaint.conflict_member_id
+                                                    and member.id == complaint.conflict_member_id
+                                                %}
+
+                                                    <div class="col-md-4">
+
+                                                        <div class="alert alert-danger conflict-alert">
+
+                                                            <strong>
+
+                                                                <i class="bi bi-exclamation-triangle"></i>
+                                                                {{ member.member_name }}
+
+                                                            </strong>
+
+                                                            <br>
+
+                                                            Conflict of Interest - Excluded
+
+                                                        </div>
+
+                                                    </div>
+
+                                                {% else %}
+
+                                                    <div class="col-md-4">
+
+                                                        <div class="committee-member">
+
+                                                            <strong>
+                                                                {{ member.member_name }}
+                                                            </strong>
+
+                                                            <small class="text-muted">
+                                                                {{ member.member_role }}
+                                                            </small>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                {% endif %}
+
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- =================================================
+                                     ACTION AREA
+                                ================================================== -->
+
+                                <div class="action-box">
+
+
+                                    {% if complaint.conflict_member_id %}
+
+
+                                        <!-- CONFLICT -->
+
+                                        <div class="alert alert-danger conflict-alert">
+
+                                            <strong>
+
+                                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                                Conflict of Interest
+
+                                            </strong>
+
+                                            <br>
+
+                                            This complaint is against
+
+                                            <strong>
+                                                {{ complaint.conflict_member_name }}
+                                            </strong>.
+
+                                            Create a separate committee.
+
+                                        </div>
+
+
+                                        <!-- CREATE COMMITTEE -->
+
+                                        <button
+                                            type="button"
+                                            class="action-btn btn-warning-theme"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#committeeModal{{ complaint.id }}">
+
+                                            <i class="bi bi-people-fill"></i>
+                                            Create Committee
+
+                                        </button>
+
+
+                                    {% else %}
+
+
+                                        <div class="action-row">
+
+
+                                            <!-- STATUS -->
+
+                                            <form
+                                                action="/update_status"
+                                                method="POST"
+                                                class="d-flex gap-2">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="id"
+                                                    value="{{ complaint.id }}">
+
+
+                                                <select
+                                                    name="status"
+                                                    class="form-select status-select">
+
+                                                    <option
+                                                        value="Pending"
+                                                        {% if complaint.status == "Pending" %}
+                                                            selected
+                                                        {% endif %}>
+
+                                                        Pending
+
+                                                    </option>
+
+
+                                                    <option
+                                                        value="In Progress"
+                                                        {% if complaint.status == "In Progress" %}
+                                                            selected
+                                                        {% endif %}>
+
+                                                        In Progress
+
+                                                    </option>
+
+
+                                                    <option
+                                                        value="Resolved"
+                                                        {% if complaint.status == "Resolved" %}
+                                                            selected
+                                                        {% endif %}>
+
+                                                        Resolved
+
+                                                    </option>
+
+                                                </select>
+
+
+                                                <button
+                                                    type="submit"
+                                                    class="action-btn btn-theme">
+
+                                                    <i class="bi bi-arrow-repeat"></i>
+                                                    Update Status
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <!-- EVIDENCE -->
+
+                                            {% if complaint.evidence %}
+
+                                                <a
+                                                    href="/uploads/{{ complaint.evidence }}"
+                                                    target="_blank"
+                                                    class="action-btn btn-evidence text-decoration-none">
+
+                                                    <i class="bi bi-file-earmark-arrow-down"></i>
+                                                    Evidence
+
+                                                </a>
+
+                                            {% endif %}
+
+
+                                            <!-- COMMITTEE REPORT -->
+
+                                            {% if complaint.investigation_report
+                                                  or complaint.committee_remarks
+                                                  or complaint.recommendation %}
+
+                                                <button
+                                                    type="button"
+                                                    class="action-btn committee-report-btn"
+                                                    data-complaint-id="{{ complaint.id }}"
+                                                    onclick="toggleCommitteeReport(this); event.stopPropagation();">
+
+                                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                                    View Committee Report
+
+                                                </button>
+
+                                            {% endif %}
+
+
+                                            <!-- FORWARD -->
+
+                                            <form
+                                                action="/forward/{{ complaint.id }}"
+                                                method="POST">
+
+                                                <button
+                                                    type="submit"
+                                                    class="action-btn btn-theme">
+
+                                                    <i class="bi bi-arrow-right-circle"></i>
+                                                    Forward to Committee
+
+                                                </button>
+
+                                            </form>
+
+
+                                        </div>
+
+
+                                        <!-- =================================================
+                                             COMMITTEE REPORT DISPLAY
+                                        ================================================== -->
+
+                                        {% if complaint.investigation_report
+                                              or complaint.committee_remarks
+                                              or complaint.recommendation %}
+
+
+                                            <div
+                                                class="committee-report-box"
+                                                id="committeeReport{{ complaint.id }}">
+
+
+                                                <div class="committee-report-header">
+
+                                                    <div class="committee-report-title">
+
+                                                        <i class="bi bi-clipboard-check-fill"></i>
+                                                        Committee Investigation Report
+
+                                                    </div>
+
+
+                                                    <span class="badge bg-light text-secondary">
+
+                                                        Complaint #{{ complaint.id }}
+
+                                                    </span>
+
+                                                </div>
+
+
+                                                <!-- INVESTIGATION REPORT -->
+
+                                                <div class="report-section">
+
+                                                    <span class="report-label">
+
+                                                        <i class="bi bi-search"></i>
+                                                        Investigation Report
+
+                                                    </span>
+
+
+                                                    {% if complaint.investigation_report %}
+
+                                                        <div class="report-content">
+
+                                                            {{ complaint.investigation_report }}
+
+                                                        </div>
+
+                                                    {% else %}
+
+                                                        <div class="report-content report-empty">
+
+                                                            No investigation report submitted.
+
+                                                        </div>
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                                <!-- COMMITTEE REMARKS -->
+
+                                                <div class="report-section">
+
+                                                    <span class="report-label">
+
+                                                        <i class="bi bi-chat-left-text"></i>
+                                                        Committee Remarks
+
+                                                    </span>
+
+
+                                                    {% if complaint.committee_remarks %}
+
+                                                        <div class="report-content">
+
+                                                            {{ complaint.committee_remarks }}
+
+                                                        </div>
+
+                                                    {% else %}
+
+                                                        <div class="report-content report-empty">
+
+                                                            No committee remarks submitted.
+
+                                                        </div>
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                                <!-- RECOMMENDATION -->
+
+                                                <div class="report-section">
+
+                                                    <span class="report-label">
+
+                                                        <i class="bi bi-lightbulb"></i>
+                                                        Recommendation
+
+                                                    </span>
+
+
+                                                    {% if complaint.recommendation %}
+
+                                                        <div class="report-content">
+
+                                                            {{ complaint.recommendation }}
+
+                                                        </div>
+
+                                                    {% else %}
+
+                                                        <div class="report-content report-empty">
+
+                                                            No recommendation submitted.
+
+                                                        </div>
+
+                                                    {% endif %}
+
+                                                </div>
+
+
+                                            </div>
+
+                                        {% endif %}
+
+                                    {% endif %}
+
+
+                                </div>
+                                <!-- END ACTION AREA -->
+
+
+                            </div>
+                            <!-- END COMPLAINT DETAILS -->
+
+
+                        </div>
+                        <!-- END COMPLETE COMPLAINT ITEM -->
+
+
+                        <!-- =================================================
+                             CREATE COMMITTEE MODAL
+                             IMPORTANT: OUTSIDE complaint-item
+                        ================================================== -->
+
+                        {% if complaint.conflict_member_id %}
+
+                        <div
+                            class="modal fade"
+                            id="committeeModal{{ complaint.id }}"
+                            tabindex="-1"
+                            aria-hidden="true">
+
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+
+
+                                    <div class="modal-header">
+
+                                        <h5 class="modal-title">
+
+                                            <i class="bi bi-people-fill"></i>
+                                            Select Committee Members
+
+                                        </h5>
+
+
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal">
+                                        </button>
+
+                                    </div>
+
+
+                                    <form
+                                        action="/create_committee"
+                                        method="POST">
+
+
+                                        <div class="modal-body">
+
+
+                                            <input
+                                                type="hidden"
+                                                name="complaint_id"
+                                                value="{{ complaint.id }}">
+
+
+                                            <div class="alert alert-info">
+
+                                                <strong>
+                                                    Category:
+                                                </strong>
+
+                                                {{ complaint.category }}
+
+                                                <br>
+
+                                                <small>
+                                                    Select the committee members who should handle this complaint.
+                                                </small>
+
+                                            </div>
+
+
+                                            {% for member in committee_members %}
+
+                                                {% if
+                                                    (
+                                                        complaint.category|lower == "fee issue"
+                                                        and member.committee_type|lower == "accounts"
+                                                    )
+                                                    or
+                                                    (
+                                                        complaint.category|lower
+                                                        == member.committee_type|lower
+                                                    )
+                                                %}
+
+
+                                                    {% if not (
+                                                        complaint.conflict_member_id
+                                                        and
+                                                        member.id == complaint.conflict_member_id
+                                                    ) %}
+
+
+                                                        <div class="form-check mb-2">
+
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="checkbox"
+                                                                name="selected_members"
+                                                                value="{{ member.id }}"
+                                                                id="member{{ complaint.id }}_{{ member.id }}">
+
+
+                                                            <label
+                                                                class="form-check-label"
+                                                                for="member{{ complaint.id }}_{{ member.id }}">
+
+                                                                <strong>
+                                                                    {{ member.member_name }}
+                                                                </strong>
+
+                                                                <small class="text-muted">
+                                                                    ({{ member.member_role }})
+                                                                </small>
+
+                                                            </label>
+
+                                                        </div>
+
+
+                                                    {% endif %}
+
+                                                {% endif %}
+
+                                            {% endfor %}
+
+
+                                            <div class="alert alert-danger mt-3">
+
+                                                <i class="bi bi-exclamation-triangle"></i>
+
+                                                <strong>
+                                                    {{ complaint.conflict_member_name }}
+                                                </strong>
+
+                                                cannot be selected because of
+                                                <strong>
+                                                    Conflict of Interest
+                                                </strong>.
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <div class="modal-footer">
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-secondary"
+                                                data-bs-dismiss="modal">
+
+                                                Cancel
+
+                                            </button>
+
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-primary">
+
+                                                <i class="bi bi-people-fill"></i>
+                                                Create Committee
+
+                                            </button>
+
+                                        </div>
+
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <!-- EMPTY STATE -->
+
+                        <div class="empty-state">
+
+                            <i class="bi bi-inbox"></i>
+
+                            <strong>
+                                No complaints found.
+                            </strong>
+
+                            <div>
+                                Try another search.
+                            </div>
+
+                        </div>
+
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RIGHT COLUMN
+            ================================================== -->
+
+            <div class="right-column">
+
+
+                <!-- QUICK ACTIONS -->
+
+                <section class="side-panel">
+
+                    <div class="side-header">
+
+                        <i class="bi bi-lightning-charge-fill"></i>
+
+                        <strong>
+                            Quick Actions
+                        </strong>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <a
+                            href="#complaints-section"
+                            class="quick-btn quick-blue">
+
+                            <div class="quick-icon">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                            </div>
+
+                            <span>
+                                View All<br>
+                                Complaints
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="#committee-section"
+                            class="quick-btn quick-purple">
+
+                            <div class="quick-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                            <span>
+                                Assign<br>
+                                Committee
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="#reports-section"
+                            class="quick-btn quick-green">
+
+                            <div class="quick-icon">
+                                <i class="bi bi-bar-chart-fill"></i>
+                            </div>
+
+                            <span>
+                                Generate<br>
+                                Report
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="#committee-section"
+                            class="quick-btn quick-orange">
+
+                            <div class="quick-icon">
+                                <i class="bi bi-person-badge-fill"></i>
+                            </div>
+
+                            <span>
+                                Manage<br>
+                                Members
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+                <!-- MY ACTIVITY -->
+
+                <section class="side-panel">
+
+                    <div class="side-header">
+
+                        <i class="bi bi-clock-history"></i>
+
+                        <strong>
+                            My Activity
+                        </strong>
+
+                    </div>
+
+
+                    <div class="activity-list">
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <span class="activity-text">
+
+                                Complaint #{{ complaints[0].id if complaints else '—' }}
+                                is pending
+
+                            </span>
+
+                            <span class="activity-time">
+                                Recent
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot blue"></span>
+
+                            <span class="activity-text">
+
+                                Committee members can be assigned from complaint details
+
+                            </span>
+
+                            <span class="activity-time">
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot blue"></span>
+
+                            <span class="activity-text">
+
+                                Complaint management dashboard updated
+
+                            </span>
+
+                            <span class="activity-time">
+                                —
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot green"></span>
+
+                            <span class="activity-text">
+
+                                Program Head dashboard is active
+
+                            </span>
+
+                            <span class="activity-time">
+                                Now
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+                <!-- NOTIFICATIONS -->
+
+                <section
+                    class="side-panel"
+                    id="reports-section">
+
+                    <div class="side-header">
+
+                        <i class="bi bi-bell-fill"></i>
+
+                        <strong>
+                            Notifications
+                        </strong>
+
+                        <a
+                            href="/notifications"
+                            class="view-all">
+
+                            View All
+
+                        </a>
+
+                    </div>
+
+
+                    <div class="notification-list">
+
+
+                        <div class="notification-item">
+
+                            <div class="notification-icon">
+                                <i class="bi bi-file-earmark-plus-fill"></i>
+                            </div>
+
+                            <div class="notification-text">
+
+                                <strong>
+                                    New complaint received
+                                </strong>
+
+                                <small>
+                                    Program Head dashboard
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notification-item">
+
+                            <div class="notification-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                            <div class="notification-text">
+
+                                <strong>
+                                    Committee assignment available
+                                </strong>
+
+                                <small>
+                                    Review complaint details
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notification-item">
+
+                            <div class="notification-icon">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                            </div>
+
+                            <div class="notification-text">
+
+                                <strong>
+                                    Complaint records updated
+                                </strong>
+
+                                <small>
+                                    Check the complaints section
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notification-item">
+
+                            <div class="notification-icon">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+
+                            <div class="notification-text">
+
+                                <strong>
+                                    Feedback received
+                                </strong>
+
+                                <small>
+                                    Review notification details
+                                </small>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </section>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /* =========================================================
+       COMPLAINT OPEN / CLOSE
+    ========================================================= */
+
+    function toggleComplaint(element) {
+
+        const item = element.closest(".complaint-item");
+
+        if (!item) {
+            return;
+        }
+
+        /*
+         * Close other complaints first.
+         * This keeps only one complaint expanded at a time,
+         * similar to the HOD dashboard.
+         */
+
+        document
+            .querySelectorAll(".complaint-item.open")
+            .forEach(function(openItem) {
+
+                if (openItem !== item) {
+                    openItem.classList.remove("open");
+                }
+
+            });
+
+
+        item.classList.toggle("open");
+
+    }
+
+
+    /* =========================================================
+       COMMITTEE REPORT OPEN / CLOSE
+    ========================================================= */
+
+    function toggleCommitteeReport(button) {
+
+        const complaintId =
+            button.getAttribute("data-complaint-id");
+
+        const reportBox =
+            document.getElementById(
+                "committeeReport" + complaintId
+            );
+
+
+        if (!reportBox) {
+            return;
+        }
+
+
+        reportBox.classList.toggle("show");
+
+
+        if (reportBox.classList.contains("show")) {
+
+            button.innerHTML =
+                '<i class="bi bi-eye-slash"></i> Hide Committee Report';
+
+        } else {
+
+            button.innerHTML =
+                '<i class="bi bi-file-earmark-text-fill"></i> View Committee Report';
+
+        }
+
+    }
+
+
+    /* =========================================================
+       STOP COMPLAINT HEADER CLICK FROM BUTTONS
+    ========================================================= */
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        document
+            .querySelectorAll(".complaint-details button, .complaint-details a, .complaint-details form")
+            .forEach(function(element) {
+
+                element.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                });
+
+            });
+
+    });
+
+</script>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Account Coordinator Dashboard - USP Complaint Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef6fa;
+            color: #183b56;
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 245px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #062b5c 0%,
+                    #075b78 48%,
+                    #087d91 100%
+                );
+
+            color: white;
+
+            padding: 20px 14px;
+
+            z-index: 1000;
+
+            box-shadow:
+                5px 0 20px rgba(3, 49, 76, 0.15);
+
+            overflow-y: auto;
+        }
+
+        /* =====================================================
+           SIDEBAR BRAND
+        ===================================================== */
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            padding: 5px 8px 23px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.14);
+
+            margin-bottom: 20px;
+        }
+
+        .brand-logo {
+            width: 43px;
+            height: 43px;
+
+            border-radius: 13px;
+
+            background: rgba(255,255,255,0.14);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+
+            border:
+                1px solid rgba(255,255,255,0.20);
+        }
+
+        .brand-text h2 {
+            font-size: 14px;
+            font-weight: 700;
+
+            line-height: 1.35;
+        }
+
+        .brand-text span {
+            display: block;
+
+            font-size: 10px;
+
+            color: #a9e8eb;
+
+            margin-top: 2px;
+        }
+
+        /* =====================================================
+           PROFILE
+        ===================================================== */
+
+        .profile-box {
+            background:
+                rgba(255,255,255,0.10);
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            border-radius: 15px;
+
+            padding: 15px 11px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            margin-bottom: 18px;
+        }
+
+        .profile-icon {
+            width: 44px;
+            height: 44px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #14a9b0,
+                    #5ed1cb
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+
+            flex-shrink: 0;
+        }
+
+        .profile-info strong {
+            display: block;
+
+            font-size: 13px;
+
+            line-height: 1.3;
+        }
+
+        .profile-info span {
+            display: inline-block;
+
+            margin-top: 4px;
+
+            padding: 3px 8px;
+
+            border-radius: 8px;
+
+            background: rgba(255,255,255,0.13);
+
+            color: #bceef0;
+
+            font-size: 9px;
+        }
+
+        /* =====================================================
+           SIDEBAR MENU
+        ===================================================== */
+
+        .menu-title {
+            font-size: 9px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            color: #8bcbd2;
+
+            padding: 0 10px 8px;
+        }
+
+        .menu {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+
+            color: #d8f5f6;
+
+            display: flex;
+            align-items: center;
+
+            gap: 11px;
+
+            padding: 11px 12px;
+
+            border-radius: 11px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background:
+                rgba(255,255,255,0.09);
+
+            color: white;
+        }
+
+        .menu a.active {
+            background:
+                linear-gradient(
+                    90deg,
+                    #079ca6,
+                    #12b2b4
+                );
+
+            color: white;
+
+            box-shadow:
+                0 5px 14px rgba(0,0,0,0.12);
+        }
+
+        .menu-icon {
+            width: 27px;
+            height: 27px;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            font-size: 15px;
+        }
+
+        .menu a.active .menu-icon {
+            background:
+                rgba(255,255,255,0.16);
+        }
+
+        .notification-badge {
+            margin-left: auto;
+
+            min-width: 20px;
+            height: 20px;
+
+            border-radius: 50%;
+
+            background: #e6405f;
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           SIDEBAR BOTTOM MESSAGE
+        ===================================================== */
+
+        .sidebar-message {
+            margin-top: 25px;
+
+            padding: 17px 13px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.12),
+                    rgba(255,255,255,0.05)
+                );
+
+            border:
+                1px solid rgba(255,255,255,0.10);
+        }
+
+        .sidebar-message .icon {
+            font-size: 25px;
+
+            margin-bottom: 9px;
+        }
+
+        .sidebar-message h3 {
+            font-size: 13px;
+
+            color: white;
+
+            line-height: 1.4;
+        }
+
+        .sidebar-message p {
+            color: #a9e4e6;
+
+            font-size: 10px;
+
+            line-height: 1.5;
+
+            margin-top: 5px;
+        }
+
+        /* =====================================================
+           MAIN AREA
+        ===================================================== */
+
+        .main {
+            margin-left: 245px;
+
+            min-height: 100vh;
+        }
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            height: 68px;
+
+            background: white;
+
+            border-bottom:
+                1px solid #dbeaf0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 27px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 900;
+
+            box-shadow:
+                0 3px 14px rgba(0,60,90,0.06);
+        }
+
+        .topbar-left h1 {
+            color: #063f69;
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+        .topbar-left p {
+            color: #6c91a7;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+        }
+
+        .logout {
+            text-decoration: none;
+
+            color: #075b78;
+
+            border:
+                1px solid #c7e4e8;
+
+            border-radius: 9px;
+
+            padding: 8px 14px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+        .logout:hover {
+            background: #edf9fa;
+
+            border-color: #0795a0;
+        }
+
+        /* =====================================================
+           PAGE CONTENT
+        ===================================================== */
+
+        .content {
+            padding: 22px 25px 35px;
+        }
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+            min-height: 145px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    115deg,
+                    #e6f9fc,
+                    #d4f3f5 55%,
+                    #c2ebef
+                );
+
+            border:
+                1px solid #cbe9ed;
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 25px 28px;
+
+            display: flex;
+            align-items: center;
+
+            margin-bottom: 19px;
+
+            box-shadow:
+                0 5px 18px rgba(0,100,130,0.07);
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 470px;
+            height: 170px;
+
+            right: -70px;
+            bottom: -125px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.48);
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 110px;
+
+            right: 130px;
+            top: -75px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.42);
+        }
+
+        .hero-content {
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+        }
+
+        .hero-icon {
+            width: 61px;
+            height: 61px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #075b78,
+                    #0ba5ac
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+
+            box-shadow:
+                0 7px 18px rgba(7,91,120,0.20);
+        }
+
+        .hero h2 {
+            color: #064d82;
+
+            font-size: 26px;
+
+            margin-bottom: 5px;
+        }
+
+        .hero p {
+            color: #2d6f9a;
+
+            font-size: 12px;
+        }
+
+        .hero-message {
+            position: absolute;
+
+            right: 35px;
+            top: 28px;
+
+            width: 155px;
+
+            text-align: center;
+
+            color: #07819a;
+
+            font-size: 12px;
+
+            line-height: 1.4;
+
+            font-style: italic;
+
+            font-weight: 600;
+
+            padding: 12px;
+
+            background:
+                rgba(255,255,255,0.72);
+
+            border-radius: 17px;
+
+            z-index: 2;
+        }
+
+        /* =====================================================
+           STATUS FILTERS
+        ===================================================== */
+
+        .filters {
+            display: flex;
+
+            gap: 9px;
+
+            margin-bottom: 18px;
+
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            text-decoration: none;
+
+            padding: 9px 20px;
+
+            border-radius: 22px;
+
+            border:
+                1px solid #c7e7eb;
+
+            background: white;
+
+            color: #087d91;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: #0795a0;
+
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #078f9f,
+                    #15b0b2
+                );
+
+            border-color: transparent;
+
+            box-shadow:
+                0 4px 12px rgba(7,149,160,0.17);
+        }
+
+        /* =====================================================
+           STAT STRIP
+        ===================================================== */
+
+        .stat-strip {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 13px;
+
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: white;
+
+            border:
+                1px solid #d9ebef;
+
+            border-radius: 14px;
+
+            padding: 14px 16px;
+
+            box-shadow:
+                0 4px 14px rgba(0,70,100,0.05);
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 4px;
+
+            background: #0795a0;
+        }
+
+        .stat-card.process::before {
+            background: #f0ad32;
+        }
+
+        .stat-card.solved::before {
+            background: #2bb673;
+        }
+
+        .stat-label {
+            color: #7897a8;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+        .stat-value {
+            color: #07518a;
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            margin-top: 4px;
+        }
+
+        /* =====================================================
+           MAIN GRID
+        ===================================================== */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                275px;
+
+            gap: 17px;
+
+            align-items: start;
+        }
+
+        /* =====================================================
+           COMPLAINT PANEL
+        ===================================================== */
+
+        .panel {
+            background: white;
+
+            border:
+                1px solid #d9ebef;
+
+            border-radius: 17px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 5px 18px rgba(0,70,100,0.06);
+        }
+
+        .panel-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 16px;
+
+            gap: 15px;
+        }
+
+        .panel-title {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .panel-icon {
+            width: 39px;
+            height: 39px;
+
+            border-radius: 11px;
+
+            background: #e4f7f9;
+
+            color: #07869c;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .panel-title h3 {
+            color: #07518a;
+
+            font-size: 17px;
+        }
+
+        .panel-title p {
+            color: #7597aa;
+
+            font-size: 10px;
+
+            margin-top: 2px;
+        }
+
+        .search {
+            width: 215px;
+
+            height: 35px;
+
+            border:
+                1px solid #cce7eb;
+
+            border-radius: 9px;
+
+            padding: 0 11px;
+
+            outline: none;
+
+            color: #075b78;
+
+            font-size: 10px;
+        }
+
+        .search:focus {
+            border-color: #0795a0;
+
+            box-shadow:
+                0 0 0 3px rgba(7,149,160,0.07);
+        }
+
+        /* =====================================================
+           COMPLAINT CARD
+        ===================================================== */
+
+        .complaint-list {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 11px;
+        }
+
+        .complaint-card {
+            border:
+                1px solid #dcecef;
+
+            border-radius: 13px;
+
+            background:
+                #fbfeff;
+
+            overflow: hidden;
+
+            transition: 0.2s;
+        }
+
+        .complaint-card:hover {
+            border-color: #b8dfe4;
+
+            box-shadow:
+                0 4px 14px rgba(0,90,120,0.06);
+        }
+
+        .complaint-top {
+            display: grid;
+
+            grid-template-columns:
+                65px
+                1.1fr
+                1fr
+                1fr
+                110px
+                90px;
+
+            gap: 10px;
+
+            align-items: center;
+
+            padding: 13px 14px;
+        }
+
+        .field-label {
+            display: block;
+
+            color: #8aa4b2;
+
+            font-size: 8px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .4px;
+
+            margin-bottom: 3px;
+        }
+
+        .field-value {
+            color: #24566f;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            line-height: 1.35;
+        }
+
+        .complaint-id {
+            color: #07518a;
+
+            font-weight: 700;
+
+            font-size: 12px;
+        }
+
+        .category {
+            display: inline-block;
+
+            color: #07849b;
+
+            background: #e6f8fa;
+
+            border-radius: 12px;
+
+            padding: 5px 8px;
+
+            font-size: 8px;
+
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-block;
+
+            border-radius: 15px;
+
+            padding: 5px 9px;
+
+            font-size: 8px;
+
+            font-weight: 700;
+
+            background: #fff1c9;
+
+            color: #b27700;
+        }
+
+        /* =====================================================
+           COMPLAINT DETAILS
+        ===================================================== */
+
+        .complaint-details {
+            border-top:
+                1px solid #e3f0f2;
+
+            padding: 15px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #f8fdfe,
+                    #ffffff
+                );
+        }
+
+        .details-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 12px;
+        }
+
+        .detail-box {
+            border:
+                1px solid #dcecef;
+
+            border-radius: 11px;
+
+            padding: 12px;
+
+            background: white;
+        }
+
+        .detail-box.full {
+            grid-column: 1 / -1;
+        }
+
+        .detail-box h4 {
+            color: #075b78;
+
+            font-size: 11px;
+
+            margin-bottom: 8px;
+        }
+
+        .detail-box p {
+            color: #506f7e;
+
+            font-size: 10px;
+
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           EXISTING RESOLUTION
+        ===================================================== */
+
+        .existing-resolution {
+            margin-top: 9px;
+
+            padding: 9px 10px;
+
+            background: #effafa;
+
+            border-left:
+                3px solid #0795a0;
+
+            border-radius: 7px;
+
+            color: #496c7c;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+        .existing-resolution strong {
+            color: #075b78;
+        }
+
+        /* =====================================================
+           UPDATE AREA
+        ===================================================== */
+
+        .update-box {
+            margin-top: 12px;
+
+            border:
+                1px solid #d4eaed;
+
+            background: #f6fcfd;
+
+            border-radius: 11px;
+
+            padding: 13px;
+        }
+
+        .update-box h4 {
+            color: #07518a;
+
+            font-size: 11px;
+
+            margin-bottom: 10px;
+        }
+
+        .status-form {
+            display: grid;
+
+            grid-template-columns:
+                150px
+                minmax(0, 1fr)
+                75px;
+
+            gap: 9px;
+
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+
+            color: #66899b;
+
+            font-size: 9px;
+
+            margin-bottom: 4px;
+
+            font-weight: 600;
+        }
+
+        .status-select,
+        .resolution-box {
+            width: 100%;
+
+            border:
+                1px solid #c5e2e6;
+
+            background: white;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            color: #24566f;
+
+            font-size: 10px;
+        }
+
+        .status-select {
+            height: 35px;
+
+            padding: 0 8px;
+        }
+
+        .resolution-box {
+            min-height: 35px;
+
+            resize: vertical;
+
+            padding: 9px;
+        }
+
+        .status-select:focus,
+        .resolution-box:focus {
+            border-color: #0795a0;
+
+            box-shadow:
+                0 0 0 3px rgba(7,149,160,0.07);
+        }
+
+        .update-btn {
+            height: 35px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #087d91,
+                    #0aa2a9
+                );
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            transition: 0.2s;
+        }
+
+        .update-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 4px 10px rgba(7,125,145,0.18);
+        }
+
+        /* =====================================================
+           FEEDBACK
+        ===================================================== */
+
+        .feedback-box {
+            margin-top: 12px;
+
+            border:
+                1px solid #ccebea;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5ffff,
+                    #eafafa
+                );
+
+            padding: 12px;
+
+            position: relative;
+        }
+
+        .feedback-title {
+            color: #075b78;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+        .feedback-rating {
+            display: inline-block;
+
+            padding: 6px 9px;
+
+            background: #e2f6f7;
+
+            border:
+                1px solid #cbe9eb;
+
+            color: #075b78;
+
+            border-radius: 7px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            margin-bottom: 7px;
+        }
+
+        .feedback-comment {
+            background: white;
+
+            border:
+                1px solid #dfedef;
+
+            border-radius: 7px;
+
+            padding: 8px;
+
+            color: #54717e;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+        .feedback-comment strong {
+            color: #075b78;
+        }
+
+        .no-feedback {
+            color: #899ca5;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+
+            font-style: italic;
+        }
+
+        /* =====================================================
+           RIGHT SIDE PANELS
+        ===================================================== */
+
+        .right-column {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 13px;
+        }
+
+        .side-panel {
+            background: white;
+
+            border:
+                1px solid #d9ebef;
+
+            border-radius: 15px;
+
+            padding: 15px;
+
+            box-shadow:
+                0 5px 16px rgba(0,70,100,0.05);
+        }
+
+        .side-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-bottom: 12px;
+        }
+
+        .side-heading-icon {
+            width: 31px;
+            height: 31px;
+
+            border-radius: 9px;
+
+            background: #e5f7f9;
+
+            color: #07879e;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 15px;
+        }
+
+        .side-heading h3 {
+            color: #07518a;
+
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           ACTIVITY
+        ===================================================== */
+
+        .activity {
+            position: relative;
+
+            padding-left: 21px;
+        }
+
+        .activity::before {
+            content: "";
+
+            position: absolute;
+
+            left: 5px;
+            top: 6px;
+            bottom: 8px;
+
+            width: 1px;
+
+            background: #c4e5e8;
+        }
+
+        .activity-item {
+            position: relative;
+
+            padding-bottom: 15px;
+        }
+
+        .activity-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .activity-dot {
+            position: absolute;
+
+            left: -21px;
+            top: 2px;
+
+            width: 11px;
+            height: 11px;
+
+            border-radius: 50%;
+
+            background: #12a6ad;
+
+            border: 2px solid #e5f8f9;
+        }
+
+        .activity-item:nth-child(2)
+        .activity-dot {
+            background: #f2ad30;
+        }
+
+        .activity-item:nth-child(3)
+        .activity-dot {
+            background: #2b82e9;
+        }
+
+        .activity-item strong {
+            display: block;
+
+            color: #07518a;
+
+            font-size: 9px;
+
+            margin-bottom: 3px;
+        }
+
+        .activity-item p {
+            color: #557d90;
+
+            font-size: 9px;
+
+            line-height: 1.45;
+        }
+
+        .activity-time {
+            color: #91a9b5;
+
+            font-size: 8px;
+
+            display: block;
+
+            margin-top: 2px;
+        }
+
+        .view-link {
+            display: block;
+
+            text-align: right;
+
+            color: #07859d;
+
+            text-decoration: none;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            margin-top: 13px;
+        }
+
+        /* =====================================================
+           NOTIFICATIONS
+        ===================================================== */
+
+        .notification {
+            display: flex;
+
+            gap: 8px;
+
+            padding: 8px 0;
+
+            border-bottom:
+                1px solid #e6f0f2;
+        }
+
+        .notification:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 26px;
+            height: 26px;
+
+            border-radius: 50%;
+
+            background: #e7f7f9;
+
+            color: #07879e;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            font-size: 12px;
+        }
+
+        .notification strong {
+            display: block;
+
+            color: #07518a;
+
+            font-size: 9px;
+
+            line-height: 1.4;
+        }
+
+        .notification span {
+            color: #8aa5b2;
+
+            font-size: 8px;
+        }
+
+        .count {
+            margin-left: auto;
+
+            width: 20px;
+            height: 20px;
+
+            border-radius: 50%;
+
+            background: #e53d5d;
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 8px;
+
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           FEEDBACK SUMMARY
+        ===================================================== */
+
+        .feedback-summary {
+            padding: 2px 0;
+        }
+
+        .feedback-summary-title {
+            color: #07518a;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            margin-bottom: 5px;
+        }
+
+        .feedback-summary p {
+            color: #7796a5;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+        .rating-text {
+            display: inline-block;
+
+            margin-top: 8px;
+
+            background: #e5f7f8;
+
+            color: #087d91;
+
+            border:
+                1px solid #cce9eb;
+
+            padding: 6px 8px;
+
+            border-radius: 7px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1200px) {
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .right-column {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .complaint-top {
+                grid-template-columns:
+                    55px
+                    1fr
+                    1fr
+                    1fr;
+            }
+
+        }
+
+        @media (max-width: 950px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+            }
+
+            .right-column {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .stat-strip {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .status-form {
+                grid-template-columns: 1fr;
+            }
+
+            .update-btn {
+                width: 100%;
+            }
+
+        }
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                min-height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .sidebar-brand {
+                margin-bottom: 12px;
+            }
+
+            .menu {
+                display: grid;
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .sidebar-message {
+                display: none;
+            }
+
+            .topbar {
+                position: relative;
+
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .hero-message {
+                display: none;
+            }
+
+            .stat-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .right-column {
+                grid-template-columns: 1fr;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-box.full {
+                grid-column: auto;
+            }
+
+        }
+
+        @media (max-width: 500px) {
+
+            .topbar-left h1 {
+                font-size: 15px;
+            }
+
+            .logout {
+                padding: 7px 10px;
+            }
+
+            .hero {
+                padding: 18px;
+            }
+
+            .hero h2 {
+                font-size: 20px;
+            }
+
+            .hero-icon {
+                width: 50px;
+                height: 50px;
+
+                font-size: 22px;
+            }
+
+            .panel {
+                padding: 12px;
+            }
+
+            .panel-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+
+    <div class="sidebar-brand">
+
+        <div class="brand-logo">
+            🛡
+        </div>
+
+        <div class="brand-text">
+
+            <h2>
+                USP Complaint
+                Management System
+            </h2>
+
+            <span>
+                University Complaint Portal
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="profile-box">
+
+        <div class="profile-icon">
+            👤
+        </div>
+
+        <div class="profile-info">
+
+            <strong>
+                Account Coordinator
+            </strong>
+
+            <span>
+                Dashboard
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <nav class="menu">
+
+
+        <a
+            href="/account_coordinator"
+            class="active"
+        >
+
+            <span class="menu-icon">
+                ⌂
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+
+        <a href="/account_coordinator">
+
+            <span class="menu-icon">
+                ▣
+            </span>
+
+            Fee Complaints
+
+        </a>
+
+
+
+        <a href="/notifications">
+
+            <span class="menu-icon">
+                ♧
+            </span>
+
+            Notifications
+
+            <span class="notification-badge">
+                3
+            </span>
+
+        </a>
+
+
+
+        <a href="#feedback">
+
+            <span class="menu-icon">
+                ☆
+            </span>
+
+            Feedback
+
+        </a>
+
+
+
+        <a href="#activity">
+
+            <span class="menu-icon">
+                ◷
+            </span>
+
+            Activity
+
+        </a>
+
+
+    </nav>
+
+
+
+    <div class="sidebar-message">
+
+        <div class="icon">
+            🎓
+        </div>
+
+        <h3>
+            Better Communication,
+            Brighter Campus
+        </h3>
+
+        <p>
+            Manage fee-related complaints
+            clearly and efficiently.
+        </p>
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="main">
+
+
+    <!-- =====================================================
+         TOPBAR
+    ===================================================== -->
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <h1>
+                Account Coordinator
+            </h1>
+
+            <p>
+                USP Complaint Management System
+            </p>
+
+        </div>
+
+
+        <a
+            href="/logout"
+            class="logout"
+        >
+            ⇥ &nbsp; Logout
+        </a>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         CONTENT
+    ===================================================== -->
+
+    <main class="content">
+
+
+        <!-- =================================================
+             HERO
+        ================================================= -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="hero-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <h2>
+                        Account Coordinator Dashboard
+                    </h2>
+
+                    <p>
+                        Manage and review fee-related complaints.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-message">
+
+                Better Communication<br>
+                Brighter Campus
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FILTERS
+        ================================================= -->
+
+        <div class="filters">
+
+
+            <a
+                href="/account_coordinator"
+                class="filter-btn {% if not selected_status %}active{% endif %}"
+            >
+                ▦ &nbsp; All
+            </a>
+
+
+
+            <a
+                href="/account_coordinator?status=In Process"
+                class="filter-btn {% if selected_status == 'In Process' %}active{% endif %}"
+            >
+                ◷ &nbsp; In Process
+            </a>
+
+
+
+            <a
+                href="/account_coordinator?status=Solved"
+                class="filter-btn {% if selected_status == 'Solved' %}active{% endif %}"
+            >
+                ✓ &nbsp; Solved
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             SMALL STATUS CARDS
+        ================================================= -->
+
+        <div class="stat-strip">
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    FEE COMPLAINTS
+                </div>
+
+                <div class="stat-value">
+                    {{ complaints|length }}
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card process">
+
+                <div class="stat-label">
+                    CURRENT VIEW
+                </div>
+
+                <div class="stat-value">
+
+                    {% if selected_status %}
+                        {{ selected_status }}
+                    {% else %}
+                        All
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <div class="stat-card solved">
+
+                <div class="stat-label">
+                    COORDINATOR
+                </div>
+
+                <div class="stat-value">
+                    Accounts
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DASHBOARD GRID
+        ================================================= -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- =============================================
+                 LEFT / MAIN PANEL
+            ============================================= -->
+
+            <section class="panel">
+
+
+                <div class="panel-header">
+
+
+                    <div class="panel-title">
+
+                        <div class="panel-icon">
+                            ▣
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Fee Complaints
+                            </h3>
+
+                            <p>
+                                View and update fee-related complaints
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <input
+                        type="text"
+                        class="search"
+                        id="complaintSearch"
+                        placeholder="Search by ID, student name..."
+                    >
+
+
+                </div>
+
+
+
+                <!-- =========================================
+                     COMPLAINT LIST
+                ========================================= -->
+
+                <div
+                    class="complaint-list"
+                    id="complaintList"
+                >
+
+
+                    {% if complaints %}
+
+
+                        {% for complaint in complaints %}
+
+
+                        <div
+                            class="complaint-card"
+                            data-search="{{ complaint.id }} {{ complaint.student_name }} {{ complaint.teacher_name }} {{ complaint.department }} {{ complaint.complaint }}"
+                        >
+
+
+                            <!-- =================================
+                                 COMPLAINT SUMMARY
+                            ================================= -->
+
+                            <div class="complaint-top">
+
+
+                                <div>
+
+                                    <span class="field-label">
+                                        ID
+                                    </span>
+
+                                    <span class="complaint-id">
+                                        #{{ complaint.id }}
+                                    </span>
+
+                                </div>
+
+
+
+                                <div>
+
+                                    <span class="field-label">
+                                        Student
+                                    </span>
+
+                                    <span class="field-value">
+                                        {{ complaint.student_name or '-' }}
+                                    </span>
+
+                                </div>
+
+
+
+                                <div>
+
+                                    <span class="field-label">
+                                        Teacher
+                                    </span>
+
+                                    <span class="field-value">
+                                        {{ complaint.teacher_name or '-' }}
+                                    </span>
+
+                                </div>
+
+
+
+                                <div>
+
+                                    <span class="field-label">
+                                        Department
+                                    </span>
+
+                                    <span class="field-value">
+                                        {{ complaint.department or '-' }}
+                                    </span>
+
+                                </div>
+
+
+
+                                <div>
+
+                                    <span class="field-label">
+                                        Category
+                                    </span>
+
+                                    <span class="category">
+                                        {{ complaint.category or '-' }}
+                                    </span>
+
+                                </div>
+
+
+
+                                <div>
+
+                                    <span class="field-label">
+                                        Status
+                                    </span>
+
+                                    <span class="status">
+                                        {{ complaint.status or 'Pending' }}
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- =================================
+                                 DETAILS
+                            ================================= -->
+
+                            <div class="complaint-details">
+
+
+                                <div class="details-grid">
+
+
+                                    <!-- COMPLAINT -->
+
+                                    <div class="detail-box full">
+
+                                        <h4>
+                                            Complaint Details
+                                        </h4>
+
+                                        <p>
+                                            {{ complaint.complaint or '-' }}
+                                        </p>
+
+                                    </div>
+
+
+
+                                    <!-- DATE -->
+
+                                    <div class="detail-box">
+
+                                        <h4>
+                                            Complaint Date
+                                        </h4>
+
+                                        <p>
+
+                                            {{ complaint.complaint_date
+                                               or complaint.created_at
+                                               or '-' }}
+
+                                        </p>
+
+                                    </div>
+
+
+
+                                    <!-- CURRENT STATUS -->
+
+                                    <div class="detail-box">
+
+                                        <h4>
+                                            Current Status
+                                        </h4>
+
+                                        <p>
+
+                                            {{ complaint.status or 'Pending' }}
+
+                                        </p>
+
+
+                                        {% if complaint.decision %}
+
+
+                                            <div class="existing-resolution">
+
+                                                <strong>
+                                                    Existing Resolution:
+                                                </strong>
+
+                                                {{ complaint.decision }}
+
+                                            </div>
+
+
+                                        {% endif %}
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <!-- =================================
+                                     UPDATE FORM
+                                ================================= -->
+
+                                <div class="update-box">
+
+
+                                    <h4>
+                                        Update Complaint / Resolution
+                                    </h4>
+
+
+
+                                    <form
+                                        method="POST"
+                                        action="/update_account_complaint_status"
+                                        class="status-form"
+                                    >
+
+
+                                        <input
+                                            type="hidden"
+                                            name="complaint_id"
+                                            value="{{ complaint.id }}"
+                                        >
+
+
+
+                                        <div class="form-group">
+
+                                            <label>
+                                                Status
+                                            </label>
+
+                                            <select
+                                                name="status"
+                                                class="status-select"
+                                                required
+                                            >
+
+                                                <option
+                                                    value="In Process"
+                                                    {% if complaint.status == 'In Process' %}
+                                                        selected
+                                                    {% endif %}
+                                                >
+                                                    In Process
+                                                </option>
+
+                                                <option
+                                                    value="Solved"
+                                                    {% if complaint.status == 'Solved' %}
+                                                        selected
+                                                    {% endif %}
+                                                >
+                                                    Solved
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+
+
+                                        <div class="form-group">
+
+                                            <label>
+                                                Resolution / Remarks
+                                            </label>
+
+                                            <textarea
+                                                name="resolution"
+                                                class="resolution-box"
+                                                placeholder="Enter resolution or remarks..."
+                                            >{{ complaint.decision or '' }}</textarea>
+
+                                        </div>
+
+
+
+                                        <button
+                                            type="submit"
+                                            class="update-btn"
+                                        >
+                                            Update
+                                        </button>
+
+
+                                    </form>
+
+
+                                </div>
+
+
+
+                                <!-- =================================
+                                     FEEDBACK
+                                     NO STARS
+                                ================================= -->
+
+                                <div
+                                    class="feedback-box"
+                                    id="feedback"
+                                >
+
+
+                                    <div class="feedback-title">
+                                        Student Feedback
+                                    </div>
+
+
+
+                                    {% if complaint.feedback_id %}
+
+
+                                        {% if complaint.feedback_rating %}
+
+                                            <div class="feedback-rating">
+
+                                                Rating:
+                                                {{ complaint.feedback_rating }}/5
+
+                                            </div>
+
+                                        {% endif %}
+
+
+
+                                        {% if complaint.feedback_comments %}
+
+                                            <div class="feedback-comment">
+
+                                                <strong>
+                                                    Comments:
+                                                </strong>
+
+                                                {{ complaint.feedback_comments }}
+
+                                            </div>
+
+                                        {% else %}
+
+                                            <div class="no-feedback">
+
+                                                No additional comments provided.
+
+                                            </div>
+
+                                        {% endif %}
+
+
+                                    {% else %}
+
+
+                                        <div class="no-feedback">
+
+                                            No feedback submitted yet.
+
+                                            {% if complaint.status != 'Solved' %}
+
+                                                <br>
+
+                                                Feedback will be available
+                                                after the complaint is solved.
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                        <div class="complaint-card">
+
+                            <div
+                                class="no-feedback"
+                                style="
+                                    padding:35px;
+                                    text-align:center;
+                                "
+                            >
+
+                                No fee complaints found.
+
+                            </div>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =============================================
+                 RIGHT COLUMN
+            ============================================= -->
+
+            <aside class="right-column">
+
+
+                <!-- =========================================
+                     RECENT ACTIVITY
+                ========================================= -->
+
+                <div
+                    class="side-panel"
+                    id="activity"
+                >
+
+
+                    <div class="side-heading">
+
+                        <div class="side-heading-icon">
+                            ◷
+                        </div>
+
+                        <h3>
+                            Recent Activity
+                        </h3>
+
+                    </div>
+
+
+
+                    <div class="activity">
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <strong>
+                                Fee Complaint Activity
+                            </strong>
+
+                            <p>
+                                Latest account complaint activity
+                            </p>
+
+                            <span class="activity-time">
+                                Recently
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <strong>
+                                Status Update
+                            </strong>
+
+                            <p>
+                                Complaint status updated by coordinator
+                            </p>
+
+                            <span class="activity-time">
+                                Recently
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <strong>
+                                Complaint Review
+                            </strong>
+
+                            <p>
+                                Fee complaint is available for review
+                            </p>
+
+                            <span class="activity-time">
+                                Recently
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <a
+                        href="#activity"
+                        class="view-link"
+                    >
+                        View All Activity →
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- =========================================
+                     NOTIFICATIONS
+                ========================================= -->
+
+                <div class="side-panel">
+
+
+                    <div class="side-heading">
+
+                        <div class="side-heading-icon">
+                            ♧
+                        </div>
+
+                        <h3>
+                            Notifications
+                        </h3>
+
+                        <span class="count">
+                            3
+                        </span>
+
+                    </div>
+
+
+
+                    <div class="notification">
+
+                        <div class="notification-icon">
+                            ℹ
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Complaint status updated
+                            </strong>
+
+                            <span>
+                                Recently
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="notification">
+
+                        <div class="notification-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                New feedback received
+                            </strong>
+
+                            <span>
+                                Recently
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="notification">
+
+                        <div class="notification-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Complaint resolved
+                            </strong>
+
+                            <span>
+                                Recently
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <a
+                        href="/notifications"
+                        class="view-link"
+                    >
+                        View All Notifications →
+                    </a>
+
+
+                </div>
+
+
+
+                <!-- =========================================
+                     FEEDBACK SUMMARY
+                     NO STAR DESIGN
+                ========================================= -->
+
+                <div
+                    class="side-panel"
+                    id="feedback-summary"
+                >
+
+
+                    <div class="side-heading">
+
+                        <div class="side-heading-icon">
+                            ☆
+                        </div>
+
+                        <h3>
+                            Feedback Summary
+                        </h3>
+
+                    </div>
+
+
+
+                    <div class="feedback-summary">
+
+                        <div class="feedback-summary-title">
+                            Feedback
+                        </div>
+
+                        <p>
+                            Student feedback becomes available
+                            after complaint resolution.
+                        </p>
+
+                        <div class="rating-text">
+                            Rating information: /5
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </aside>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     SEARCH
+     FRONT-END ONLY
+     DOES NOT TOUCH YOUR WORKFLOW
+========================================================= -->
+
+<script>
+
+    const searchInput =
+        document.getElementById("complaintSearch");
+
+    const complaintCards =
+        document.querySelectorAll(".complaint-card");
+
+    if (searchInput) {
+
+        searchInput.addEventListener("input", function () {
+
+            const value =
+                this.value.toLowerCase().trim();
+
+            complaintCards.forEach(function (card) {
+
+                const text =
+                    card
+                    .getAttribute("data-search")
+                    .toLowerCase();
+
+                if (text.includes(value)) {
+
+                    card.style.display = "";
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        });
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
